@@ -636,6 +636,11 @@ def make_task(
         'Ebs': ebs
       }]
 
+      # Use spot instance, with a max price equal to the on-demand price.
+      args['InstanceMarketOptions'] = {
+        'MarketType': 'spot',
+      }
+
     instances = []
     try:
       instances = ec2.create_instances(**args)
