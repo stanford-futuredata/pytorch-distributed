@@ -52,7 +52,8 @@ four_machines = [
   {'ep':(16,23),'lr':(lr*bs_scale[1],lr/10*bs_scale[1])},
   {'ep':(23,28),'lr':(lr/10*bs_scale[1],lr/100*bs_scale[1])},
   {'ep':28, 'sz':288, 'bs':bs[2], 'min_scale':0.5, 'rect_val':True},
-  {'ep':(28,30),'lr':(lr/100*bs_scale[2],lr/1000*bs_scale[2])}
+  {'ep':(28,30),'lr':(lr/100*bs_scale[2],lr/1000*bs_scale[2])},
+  {'ep':(30,35),'lr':lr/1000*bs_scale[2]},
 ]
 
 
