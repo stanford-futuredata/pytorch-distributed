@@ -575,7 +575,6 @@ def make_task(
   image = u.lookup_image(image_name)
   keypair = u.get_keypair()
   security_group = u.get_security_group()
-  #  subnet = u.get_subnet()
   ec2 = u.get_ec2_resource()
 
   instance = u.lookup_instance(name, instance_type,
@@ -603,11 +602,6 @@ def make_task(
       }]
     }]
 
-    #    args['NetworkInterfaces'] = [{'SubnetId': subnet.id,
-    #                                  'DeviceIndex': 0,
-    #                                  'AssociatePublicIpAddress': True,
-    #                                  'Groups': [security_group.id]}]
-    #    placement_specs = {'AvailabilityZone': u.get_zone()}
     placement_specs = {}
     if placement_group:
       placement_specs['GroupName'] = placement_group
@@ -761,6 +755,3 @@ def make_job(
       f"Got instance spread over multiple placement groups: {placement_dict}. Must terminate all instances in run {run_name} and try again.")
   run_.jobs.append(job)
   return job
-
-# def make_run(name, **kwargs):
-#  return Run(name, **kwargs)
