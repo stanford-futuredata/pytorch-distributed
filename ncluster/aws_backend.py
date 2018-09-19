@@ -637,9 +637,10 @@ def make_task(
       }]
 
       # Use spot instance, with a max price equal to the on-demand price.
-      args['InstanceMarketOptions'] = {
-        'MarketType': 'spot',
-      }
+      if preemptible:
+        args['InstanceMarketOptions'] = {
+          'MarketType': 'spot',
+        }
 
     instances = []
     try:
