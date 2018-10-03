@@ -58,6 +58,8 @@ def get_parser():
     parser.add_argument('--local_rank', default=0, type=int,
                         help='Used for multi-process training. Can either be manually set ' +
                         'or automatically set by using \'python -m multiproc\'.')
+    parser.add_argument('--global_rank', default=0, type=int,
+                        help='Used for multi-machine training.')
     parser.add_argument('--logdir', default='', type=str,
                         help='where logs go')
     parser.add_argument('--skip-auto-shutdown', action='store_true',
@@ -90,6 +92,7 @@ def main():
     dataloader.sort_ar(args.data+'/validation')
     
     if args.distributed:
+        print("Args.local_rank: %d, args.global_rank: %d" % (args.local_rank, args.global_rank))
         log.console('Distributed initializing process group')
         torch.cuda.set_device(args.local_rank)
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url, world_size=dist_utils.env_world_size())
@@ -147,7 +150,7 @@ def main():
 
         is_best = top5 > best_top5
         best_top5 = max(top5, best_top5)
-        if args.local_rank == 0:
+        if args.local_rank == 0 and args.global_rank == 0:
             if is_best: save_checkpoint(epoch, model, best_top5, optimizer, is_best=True, filename='model_best.pth.tar')
             phase = dm.get_phase(epoch)
             if phase: save_checkpoint(epoch, model, best_top5, optimizer, filename=f'sz{phase["bs"]}_checkpoint.path.tar')

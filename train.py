@@ -81,7 +81,6 @@ eight_machines = [
 # events: https://s3.amazonaws.com/yaroslavvb/logs/imagenet-16.02.thu16
 # logs: https://s3.amazonaws.com/yaroslavvb/logs/imagenet-16.cmd.tar
 lr = 0.235 * 8 # 
-bs = 64
 sixteen_machines = [
     {'ep':0,  'sz':128, 'bs':64, 'trndir':'-sz/160'},
     {'ep':(0,6),  'lr':(lr,lr*2)},
@@ -188,7 +187,7 @@ def main():
   # TODO: simplify args processing, or give link to actual commands run
   for i, task in enumerate(job.tasks):
     dist_params = f'--nproc_per_node=8 --nnodes={args.machines} --node_rank={i} --master_addr={job.tasks[0].ip} --master_port={6006}'
-    cmd = f'{nccl_params} python -m torch.distributed.launch {dist_params} training/train_imagenet_nv.py {training_params}'
+    cmd = f'{nccl_params} python -m torch.distributed.launch {dist_params} training/train_imagenet_nv.py {training_params} --global_rank {i}'
     task.run(f'echo {cmd} > {job.logdir}/task-{i}.cmd')  # save command-line
     task.run(cmd, non_blocking=True)
 
