@@ -91,9 +91,9 @@ sixteen_machines = [
     {'ep':19,           'bs':192, 'keep_dl':True},
     {'ep':19,     'lr':2*lr/(10/1.5)},
     {'ep':31,     'lr':2*lr/(100/1.5)},
-    {'ep':37, 'sz':288, 'bs':128, 'min_scale':0.5, 'rect_val':True},
-    {'ep':37,     'lr':2*lr/100},
-    {'ep':(38,50),'lr':2*lr/1000}
+    {'ep':37, 'sz':288, 'bs':96, 'min_scale':0.5, 'rect_val':True},
+    {'ep':37,     'lr':1.5*lr/100},
+    {'ep':(38,50),'lr':1.5*lr/1000}
 ]
   
 schedules = {1: one_machine,
